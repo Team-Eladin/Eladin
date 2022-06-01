@@ -26,6 +26,45 @@ class OrderService {
     });
     return order;
   }
+
+  //주문 정보 페이징
+  async pagingOrder(orders, countPerPage, pageNo) {
+    if (
+      countPerPage == undefined ||
+      typeof countPerPage == 'undefined' ||
+      countPerPage == null
+    ) {
+      countPerPage = 9;
+    } else {
+      countPerPage = parseInt(countPerPage);
+    }
+    if (pageNo == undefined || typeof pageNo == 'undefined' || pageNo == null) {
+      pageNo = 0;
+    } else {
+      pageNo = parseInt(pageNo);
+    }
+    if (pageNo > 0) {
+      // 전체 크기
+      var totalCount = orders.length;
+      // 시작 번호
+      var startItemNo = (pageNo - 1) * countPerPage;
+      // 종료 번호
+      var endItemNo = pageNo * countPerPage - 1;
+      // 종료 번호가 전체 크기보다 크면 전체 크기로 변경
+      if (endItemNo > totalCount - 1) {
+        endItemNo = totalCount - 1;
+      }
+      var orderList = [];
+      if (startItemNo < totalCount) {
+        for (var index = startItemNo; index <= endItemNo; index++) {
+          orderList.push(orders[index]);
+        }
+      }
+      return orderList;
+    } else {
+      return orders;
+    }
+  }
 }
 
 const orderService = new OrderService(orderModel);

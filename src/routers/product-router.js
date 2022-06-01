@@ -43,48 +43,69 @@ productRouter.post('/register', async (req, res, next) => {
   }
 });
 
-// 전체 상품 목록 가져옴
+// 전체 상품 목록 가져옴(default)
 productRouter.get('/list', async (req, res, next) => {
   try {
-    const products = await productService.getProducts();
     var countPerPage = req.query.countperpage;
-    // 페이지 번호
     var pageNo = req.query.pageno;
-    if (
-      countPerPage == undefined ||
-      typeof countPerPage == 'undefined' ||
-      countPerPage == null
-    ) {
-      countPerPage = 9;
-    } else {
-      countPerPage = parseInt(countPerPage);
-    }
-    if (pageNo == undefined || typeof pageNo == 'undefined' || pageNo == null) {
-      pageNo = 0;
-    } else {
-      pageNo = parseInt(pageNo);
-    }
-    if (pageNo > 0) {
-      // 전체 크기
-      var totalCount = products.length;
-      // 시작 번호
-      var startItemNo = (pageNo - 1) * countPerPage;
-      // 종료 번호
-      var endItemNo = pageNo * countPerPage - 1;
-      // 종료 번호가 전체 크기보다 크면 전체 크기로 변경
-      if (endItemNo > totalCount - 1) {
-        endItemNo = totalCount - 1;
-      }
-      var productList = [];
-      if (startItemNo < totalCount) {
-        for (var index = startItemNo; index <= endItemNo; index++) {
-          productList.push(products[index]);
-        }
-      }
-      res.json({ data: productList });
-    } else {
-      res.json({ data: products });
-    }
+    const products = await productService.getProducts();
+    var productsList = await productService.pagingProduct(
+      products,
+      countPerPage,
+      pageNo
+    );
+    res.json({ productsList });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//전체 상품 목록 최신 등록순으로 가져오기
+productRouter.get('/latestlist', async (req, res, next) => {
+  try {
+    var countPerPage = req.query.countperpage;
+    var pageNo = req.query.pageno;
+    const products = await productService.getlatestProducts();
+    var productsList = await productService.pagingProduct(
+      products,
+      countPerPage,
+      pageNo
+    );
+    res.json({ productsList });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//전체 상품 목록 높은 가격순으로 가져오기
+productRouter.get('/expensivelist', async (req, res, next) => {
+  try {
+    var countPerPage = req.query.countperpage;
+    var pageNo = req.query.pageno;
+    const products = await productService.getExpensiveProducts();
+    var productsList = await productService.pagingProduct(
+      products,
+      countPerPage,
+      pageNo
+    );
+    res.json({ productsList });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//전체 상품 목록 높은 가격순으로 가져오기
+productRouter.get('/cheaplist', async (req, res, next) => {
+  try {
+    var countPerPage = req.query.countperpage;
+    var pageNo = req.query.pageno;
+    const products = await productService.getCheapProducts();
+    var productsList = await productService.pagingProduct(
+      products,
+      countPerPage,
+      pageNo
+    );
+    res.json({ productsList });
   } catch (error) {
     next(error);
   }
