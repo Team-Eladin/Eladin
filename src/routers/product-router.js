@@ -60,7 +60,7 @@ productRouter.get('/list', async (req, res, next) => {
 });
 
 //전체 상품 목록 최신 등록순으로 가져오기
-productRouter.get('/latestlist', async (req, res, next) => {
+productRouter.get('/latestList', async (req, res, next) => {
   try {
     var countPerPage = req.query.countperpage;
     var pageNo = req.query.pageno;
@@ -77,7 +77,7 @@ productRouter.get('/latestlist', async (req, res, next) => {
 });
 
 //전체 상품 목록 높은 가격순으로 가져오기
-productRouter.get('/expensivelist', async (req, res, next) => {
+productRouter.get('/expensiveList', async (req, res, next) => {
   try {
     var countPerPage = req.query.countperpage;
     var pageNo = req.query.pageno;
@@ -94,7 +94,7 @@ productRouter.get('/expensivelist', async (req, res, next) => {
 });
 
 //전체 상품 목록 높은 가격순으로 가져오기
-productRouter.get('/cheaplist', async (req, res, next) => {
+productRouter.get('/cheapList', async (req, res, next) => {
   try {
     var countPerPage = req.query.countperpage;
     var pageNo = req.query.pageno;

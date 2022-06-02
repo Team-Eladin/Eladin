@@ -37,7 +37,7 @@ orderRouter.post('/register', async (req, res, next) => {
 });
 
 //전체 주문 목록 가져오기(관리자용)
-orderRouter.get('/orderlist', adminRequired, async (req, res, next) => {
+orderRouter.get('/orderList', adminRequired, async (req, res, next) => {
   try {
     var countPerPage = req.query.countperpage;
     var pageNo = req.query.pageno;
